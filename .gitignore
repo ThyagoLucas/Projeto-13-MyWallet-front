@@ -1,5 +1,6 @@
 #node modules
-/node_modules
+/projeto13-mywallet-back/node_modules/
+/projeto13-mywallet-front/node_modules/
 
 #configs
 .env
