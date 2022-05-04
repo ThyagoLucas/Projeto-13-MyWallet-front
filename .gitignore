@@ -1,7 +1,9 @@
 #node modules
-/node_modules
+node_modules/
 
 MyWallet.code-workspace
+
+
 
 #configs
 .env
