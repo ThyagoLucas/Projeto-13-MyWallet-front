@@ -1,5 +1,9 @@
 # dependencies
-/node_modules
+projeto13-mywallet-front/
+node_modules
+
+projeto13-mywallet-back/
+node_modules
 
 MyWallet.code-workspace
 
