@@ -32,7 +32,7 @@ function Login(){
                 <button>Entrar</button>
             </form>
             
-            <Link to={"/home"}>
+            <Link to={"/cadastro"}>
                 <h2>Primeira vez? Cadastre-se!</h2>
             </Link>
             

@@ -31,12 +31,8 @@ function Home(){
                 </div>
 
             </footer>
-
-    
         </Main>
-        
     )
-
 }
 
 const Main = styled.main`
@@ -53,7 +49,6 @@ const Main = styled.main`
         font-weight: 700;
         font-size: 26px;
         line-height: 31px;
-
         color: #FFFFFF;
         display: flex;
         align-items: center;                        
@@ -61,7 +56,6 @@ const Main = styled.main`
         background-color:grey;
         width:100%;
     }
-
     section{ //Alterar essa section
         font-weight: 400;
         font-size: 20px;
@@ -76,13 +70,11 @@ const Main = styled.main`
         background-color: #FFFFFF;
     }
     footer{
-       
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
-
     }
     footer div{
         width: 155px;
@@ -92,7 +84,6 @@ const Main = styled.main`
         font-weight: 700;
         font-size: 17px;
         line-height: 20px;
-
         left: 25px;
         top: 537px;
         background: #A328D6;

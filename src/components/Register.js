@@ -1,27 +1,49 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Register(){
-    const [userInfo, setDataUserToRegister] = useState({name:'', email:'', senha:''});
+    const [userInfo, setDataUserToRegister] = useState({name:'', email:'', password:'', confPassword:''});
+    const [buttonState, setButtonState] = useState({activate:true, name:'Cadastrar'});
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        const{name, email, password, confPassword} = userInfo;  
+        console.log('entrou')
+        if( password === confPassword && name !== '' && email!== ''){ 
+            setButtonState({...buttonState, activate:false});
+        }else{
+            setButtonState({...buttonState, activate:true});
+        }
+
+    }, [userInfo]); //lembrar de colocar a validação de paridade das senhas com texto
 
 
     function tryCadastrar(event){
+        
         event.preventDefault();
 
-        console.log("obj a cadastrar",userInfo )
+        axios.post('http://localhost:5000/cadastro', userInfo)
+                            .then((response)=>{navigate('/')})
+                            .catch(err => {
+                                console.log('Erro ao cadastrar: ', err);
+                            })         
+
+        console.log("obj a cadastrar",userInfo);;
     }
 
     return (
         
-        <Main>
+        <Main button={buttonState.activate}>
             <h1>MyWallet</h1>        
             <form onSubmit={tryCadastrar}>
                 <input required type={"text"} placeholder="Nome" onChange={(e)=>{setDataUserToRegister({...userInfo, name:e.target.value})}}></input>
                 <input required type={"email"} placeholder="E-mail" onChange={(e)=>{setDataUserToRegister({...userInfo, email:e.target.value})}}></input>
-                <input required type={"password"} placeholder="Senha" onChange={(e)=>{setDataUserToRegister({...userInfo, senha:e.target.value})}}></input>
-                <input required type={"password"} placeholder="Confirme a senha"></input>
-                <button>Cadastrar</button>
+                <input required type={"password"} placeholder="Senha" onChange={(e)=>{setDataUserToRegister({...userInfo, password:e.target.value})}}></input>
+                 
+                <input required type={"password"} placeholder="Confirme a senha" onChange={(e)=>{setDataUserToRegister({...userInfo, confPassword:e.target.value})}} ></input>
+                <button disabled={buttonState.activate}>Cadastrar</button>
 
             </form>
 
@@ -64,7 +86,7 @@ const Main = styled.main`
         height: 45px;
         border-radius: 5px;
         padding: 5px;
-        background: #A328D6;
+        background: ${props=> props.button ? 'grey': 'lightgreen'};
         font-family: 'Raleway';
         font-style: normal;
         font-weight: 700;
