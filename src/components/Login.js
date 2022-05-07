@@ -1,26 +1,28 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 
 function Login(){
 
     const [loginDatas, setDatasLogin ] = useState({email:'', password:''});
-    console.log(loginDatas.email);
-    console.log(loginDatas.password);
+    const navigate = useNavigate();
 
     function tryLogin(event){
 
         event.preventDefault();
-        console.log("Consoleeeee");
-        console.log(loginDatas);
 
-            
-
+        axios.post('http://localhost:5000/login', loginDatas)
+                            .then((response)=>{
+                                localStorage.setItem('token', response.data);
+                                navigate('/home')})
+                            .catch(err => {
+                                console.log('Erro ao cadastrar: ', err);
+                            });  
+        
     }
-
-    
 
     return(
 
@@ -32,7 +34,7 @@ function Login(){
                 <button>Entrar</button>
             </form>
             
-            <Link to={"/cadastro"}>
+            <Link to={"/cadastro"}> 
                 <h2>Primeira vez? Cadastre-se!</h2>
             </Link>
             

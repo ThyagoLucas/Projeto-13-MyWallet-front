@@ -1,15 +1,39 @@
 import styled from "styled-components";
 import {GrLogout, GrAddCircle, GrSubtractCircle} from 'react-icons/gr';
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 
 function Home(){
 
-    const fulano = "fulano";
+    const token = localStorage.getItem('token');
+
+    const [userDatas, setUserDatas] = useState({name:'', values:[], total:''});
+
+    useEffect(()=>{
+  
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    
+
+        axios.get('http://localhost:5000/info-account',config)
+                .then((response)=>{
+                    setUserDatas({...userDatas, name:response.data})
+                   })
+
+                .catch(err => {
+                    console.log('Erro ao buscar dados da api: ', err);
+                });  
+    },[])
 
     return(
 
         <Main>
             <header>
-                <h1>Ola {fulano}</h1>
+                <h1>Ola {userDatas.name} </h1>
                 <GrLogout color="white"/>
             </header>
 

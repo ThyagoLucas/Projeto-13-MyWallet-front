@@ -34,7 +34,7 @@ function Register(){
     }
 
     return (
-        
+    
         <Main button={buttonState.activate}>
             <h1>MyWallet</h1>        
             <form onSubmit={tryCadastrar}>
