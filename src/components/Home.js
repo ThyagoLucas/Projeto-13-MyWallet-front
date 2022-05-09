@@ -125,6 +125,7 @@ const Main = styled.main`
         width: 100%;
         background-color: #FFFFFF;
         border-radius: 5px;
+        overflow-x: hidden;
     }
     section h1{
         width: 65%;

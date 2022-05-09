@@ -24,7 +24,7 @@ function Register(){
         
         event.preventDefault();
 
-        axios.post('http://localhost:5000/cadastro', userInfo)
+        axios.post('https://mywalletde.herokuapp.com/register', userInfo)
                             .then((response)=>{navigate('/')})
                             .catch(err => {
                                 console.log('Erro ao cadastrar: ', err);

@@ -3,7 +3,6 @@ import {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-
 function CashIn(){
 
     const [datasCashIn, setDatasCashIn] = useState({type:'cashIn', description:'', value:0 });
@@ -34,7 +33,7 @@ function CashIn(){
             <form onSubmit={sendCashIn} >
                 
                 <input required type={'text'} placeholder={'breve descrição'} onChange={(e)=>{setDatasCashIn({...datasCashIn, description:e.target.value})}} ></input>
-                <input required type={'text'} placeholder={'valor'} onChange={(e)=>{setDatasCashIn({...datasCashIn, value:e.target.value})}} value={datasCashIn.value} ></input>
+                <input required type={'text'} placeholder={'valor'} onChange={(e)=>{setDatasCashIn({...datasCashIn, value:e.target.value})}} ></input>
                     
                 <Link to={"/home"}>
                     <button>cancelar</button>
