@@ -57,7 +57,7 @@ function Register(){
 const Main = styled.main`
     background-color:  #8C11BE;
     width: 375px;
-    height: 677px;
+    height: 100vh;
     padding: 10px;
     display: flex;
     justify-content: center;

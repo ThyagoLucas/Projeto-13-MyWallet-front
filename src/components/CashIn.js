@@ -1,14 +1,20 @@
 import axios from "axios";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function CashIn(){
 
-    const [datasCashIn, setDatasCashIn] = useState({type:'cashIn', description:'', value:0 });
-    const token = localStorage.getItem('token');
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
+    const [datasCashIn, setDatasCashIn] = useState({type:'cashIn', description:'', value:0 });
+
+    useEffect(()=>{
+        token === null? navigate('/'):<></>;
+
+    },[])
+    
     function sendCashIn(event){
         event.preventDefault();
         const config = {
@@ -50,7 +56,7 @@ const Main = styled.main`
 
     background-color:  #8C11BE;
     width: 375px;
-    height: 677px;
+    height: 100vh;
     padding: 10px;
     display: flex;
     justify-content: center;

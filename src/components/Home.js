@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import {GrLogout, GrAddCircle, GrSubtractCircle} from 'react-icons/gr';
+import { IoAddCircleOutline, IoExitOutline } from 'react-icons/io5';
+import{ IoIosRemoveCircleOutline } from 'react-icons/io'
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Home(){
@@ -10,8 +11,18 @@ function Home(){
     const token = localStorage.getItem('token');
 
     const [userDatas, setUserDatas] = useState({name:'', transactions:[], total:0});
-   
+    const refresh = [];
+    const navigate = useNavigate();
+    
+    function logout(){
+        localStorage.removeItem('token');
+        navigate('/');
+
+    }
     useEffect(()=>{
+
+        token === null? navigate('/'):<></>;
+
         const config = {
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -24,28 +35,26 @@ function Home(){
             .catch(err => {
                 console.log('Erro ao buscar dados da api: ', err);
             });  
-    },[])
+    },refresh);
 
     return(
 
         <Main>
             <header>
-                <h1>Ola {userDatas.name},</h1>
-                <GrLogout color="white"/>
+                <h1>Olá {userDatas.name},</h1>
+                
+                <IoExitOutline size={'35px'} onClick={()=>logout()}/>
             </header>
 
             <section>
                 {userDatas.transactions.length === 0 
-                ?   <h1>Não há registros de entrada ou de saída!</h1>
+                ?<h1>Não há registros de entrada ou de saída!</h1>
+                :<>
+                <div className="transactions">
+                    {userDatas.transactions.map((value, index) => <Values key={index} infoTransition={value} />)}
 
-                :  
-                <>
-                    <div className="transactions">
-                        {userDatas.transactions.map((value, index) => <Values key={index} infoTransition={value} />)}
-
-                    </div>
-                    <h1 className="total">Saldo: <span className={`${userDatas.total > 0? 'cashIn':'cashOut'}`}>{userDatas.total.toFixed(2)}</span></h1>
-
+                </div>
+                <h1 className="total">Saldo: <span className={`${userDatas.total > 0? 'cashIn':'cashOut'}`}>{userDatas.total.toFixed(2)}</span></h1>
                 </>         
             }
                 
@@ -55,14 +64,14 @@ function Home(){
 
                 <Link to={"/entrada"}>
                     <div>
-                        <GrAddCircle/>
+                        <IoAddCircleOutline size={'35px'}/>
                         <p>Nova entrada</p>
                     </div>
                 </Link>
                 
                 <Link to={"/saida"}>
                     <div>
-                        <GrSubtractCircle/>
+                        <IoIosRemoveCircleOutline size={'35px'}/>
                         <p>Nova saída</p>
                     </div>
                 </Link>
@@ -76,7 +85,6 @@ function Values ({infoTransition}){
 
     const {day, month, typeOperation, description, value} = infoTransition;
     const newValue = value.toFixed(2).toString().replace('.',',');
-    console.log('infoTransitions: ', infoTransition);
 
     return(
         <div className="transaction">
@@ -94,7 +102,7 @@ const Main = styled.main`
 
     background-color:  #8C11BE;
     width: 375px;
-    height: 677px;
+    height: 100vh;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -108,7 +116,7 @@ const Main = styled.main`
         display: flex;
         align-items: center;                        
         justify-content: space-between;  
-        background-color:grey;
+        margin-top: 35px;
         width:100%;
     }
     section{ //Alterar essa section
@@ -119,25 +127,30 @@ const Main = styled.main`
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        color: #868686;
+        
         margin-top: 20px;
-        height: 75%;
+        height: 500px;
         width: 100%;
         background-color: #FFFFFF;
         border-radius: 5px;
         overflow-x: hidden;
     }
     section h1{
+        color: #868686;
         width: 65%;
         height: 100%;
         display: flex;
+        text-align: center;
         align-items: center;
     }
     .transactions{
+        overflow-x: hidden;
         width: 100%;
+        height: 90%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        
     }
     .transaction{
         font-size: 18px;
@@ -164,17 +177,17 @@ const Main = styled.main`
         color:red;
     }
     .description{  
-     
         color: #000000;
     }
     .total{
-        background-color: lightblue;
-        width: 90%;
+        width: 95%;
         height: 35px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         color: #000000;
+        border-top: #000000 solid 1px;
+        font-weight: bold;
     }
     footer{
         width: 100%;
@@ -182,18 +195,21 @@ const Main = styled.main`
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
+        margin-top: 5px;
     }
     footer div{
-        width: 155px;
-        height: 114px;
         margin-top: 15px;
-        color: #FFFFFF;
+        padding: 40px;
+        
         font-weight: 700;
         font-size: 17px;
         line-height: 20px;
-        left: 25px;
-        top: 537px;
-        background: #A328D6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF;
+        background-color: #A328D6;
         border-radius: 5px;
     }
 `
