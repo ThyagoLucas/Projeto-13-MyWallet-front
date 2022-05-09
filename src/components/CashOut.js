@@ -1,19 +1,19 @@
 import axios from "axios";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import TokenContext from "./context/TokenContext";
 
 
 function CashOut(){
 
     const navigate = useNavigate();
-    const token = localStorage.getItem('token');
+    const {token} = useContext(TokenContext);
 
     const [datasCashOut, setDatasCashOut] = useState({type:'cashOut', description:'', value:0 });
 
     useEffect(()=>{
-        token === null? navigate('/'):<></>;
-
+        token === undefined||token ===null? navigate('/'):<></>;
     },[])
 
     function sendCashOut(event){

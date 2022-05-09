@@ -1,26 +1,28 @@
+import { useState, useEffect, useContext, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import styled from "styled-components";
 import { IoAddCircleOutline, IoExitOutline } from 'react-icons/io5';
 import{ IoIosRemoveCircleOutline } from 'react-icons/io'
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 
+import TokenContext from "./context/TokenContext";
 
 function Home(){
 
-    const token = localStorage.getItem('token');
-
-    const [userDatas, setUserDatas] = useState({name:'', transactions:[], total:0});
-    const refresh = [];
     const navigate = useNavigate();
+
+    const {token, setToken} = useContext(TokenContext);
     
+    const [userDatas, setUserDatas] = useState({name:'', transactions:[], total:0});
+   
     function logout(){
         localStorage.removeItem('token');
+        setToken(localStorage.getItem('token'));
         navigate('/');
-
     }
-    useEffect(()=>{
 
+    useEffect(()=>{
         token === null? navigate('/'):<></>;
 
         const config = {
@@ -35,7 +37,7 @@ function Home(){
             .catch(err => {
                 console.log('Erro ao buscar dados da api: ', err);
             });  
-    },refresh);
+    },token);
 
     return(
 
@@ -56,7 +58,7 @@ function Home(){
                 </div>
                 <h1 className="total">Saldo: <span className={`${userDatas.total > 0? 'cashIn':'cashOut'}`}>{userDatas.total.toFixed(2)}</span></h1>
                 </>         
-            }
+                }
                 
             </section>
 
@@ -127,7 +129,6 @@ const Main = styled.main`
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        
         margin-top: 20px;
         height: 500px;
         width: 100%;
@@ -150,7 +151,6 @@ const Main = styled.main`
         display: flex;
         flex-direction: column;
         align-items: center;
-        
     }
     .transaction{
         font-size: 18px;
@@ -162,7 +162,6 @@ const Main = styled.main`
         margin-top: 3px;
     }
     .transaction span{
-       
         width: 75%;
         display: flex;
         flex-direction: row;
@@ -200,7 +199,6 @@ const Main = styled.main`
     footer div{
         margin-top: 15px;
         padding: 40px;
-        
         font-weight: 700;
         font-size: 17px;
         line-height: 20px;

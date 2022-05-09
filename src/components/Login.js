@@ -1,13 +1,24 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import TokenContext from "./context/TokenContext";
+
 
 function Login(){
+    
+    const navigate = useNavigate();
+
+    const {token, setToken} = useContext(TokenContext);
 
     const [loginDatas, setDatasLogin ] = useState({email:'', password:''});
-    const navigate = useNavigate();
+    
+    useEffect(()=>{
+        console.log("ass",token)
+        token === null? navigate('/'):navigate('/home');
+    },[])
+
 
     function tryLogin(event){
 
@@ -16,7 +27,9 @@ function Login(){
         axios.post('https://mywalletde.herokuapp.com/login', loginDatas)
                 .then((response)=>{
                     localStorage.setItem('token', response.data);
-                    navigate('/home')})
+                    setToken(localStorage.getItem('token'));
+                    navigate('/home');
+                })
                 .catch(err => {
                     console.log('Erro ao logar: ', err);
         });  
@@ -38,8 +51,6 @@ function Login(){
             </Link>
             
         </Main>
-            
-
     )
 }
 

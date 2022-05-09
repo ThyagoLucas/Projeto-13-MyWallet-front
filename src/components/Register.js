@@ -17,24 +17,22 @@ function Register(){
             setButtonState({...buttonState, activate:true});
         }
 
-    }, [userInfo]); //lembrar de colocar a validação de paridade das senhas com texto
-
+    }, [userInfo]);
 
     function tryCadastrar(event){
         
         event.preventDefault();
+        
 
         axios.post('https://mywalletde.herokuapp.com/register', userInfo)
-                            .then((response)=>{navigate('/')})
-                            .catch(err => {
-                                console.log('Erro ao cadastrar: ', err);
-                            })         
+                    .then((response)=>{navigate('/')})
+                    .catch(err => {
+                        console.log('Erro ao cadastrar: ', err);
+                });      
 
-        console.log("obj a cadastrar",userInfo);;
     }
 
     return (
-    
         <Main button={buttonState.activate}>
             <h1>MyWallet</h1>        
             <form onSubmit={tryCadastrar}>
