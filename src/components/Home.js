@@ -17,7 +17,7 @@ function Home(){
                 "Authorization": `Bearer ${token}`
             }
         }
-        axios.get('http://localhost:5000/info-account',config)
+        axios.get('https://mywalletde.herokuapp.com/info-account',config)
             .then((response)=>{
                 setUserDatas(response.data) })
 
